@@ -82,19 +82,24 @@ Verified Fixes: {sum(1 for p in session.patches if p.verified)}
 
 Return ONLY valid JSON compliance report."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000, agent_name="Auditor")
 
     json_match = re.search(r"\{[\s\S]+\}", raw)
     if not json_match:
         session.log.append("[Auditor] Report generation failed")
         return {}
 
-    report = json.loads(json_match.group())
+    try:
+        report = json.loads(json_match.group())
+    except json.JSONDecodeError:
+        session.log.append("[Auditor] Could not parse compliance report JSON")
+        return {}
 
     session.compliance_score = report.get("compliance_score_after", 0)
     session.compliance_delta = (
         report.get("compliance_score_after", 0) - report.get("compliance_score_before", 0)
     )
+    session.compliance_report = report
 
     session.log.append(
         f"[Auditor] Compliance score: {report.get('compliance_score_before')} → "

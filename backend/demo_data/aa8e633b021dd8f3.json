@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: \n  Endpoint: /auth/users\n\nPatch applied:\n  Original: res.status(401).send({ message: 'Invalid username or password' });\n  Fixed: res.status(401).send({ message: 'Invalid username or password. Please check your email address.' });\n ",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"The fix does not address the root cause, as it still allows enumeration of user accounts by providing a generic error message that could potentially reveal email addresses.\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": false\n}"
+}

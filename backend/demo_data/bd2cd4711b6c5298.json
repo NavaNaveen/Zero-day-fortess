@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: ..\\..\\file.txt\n  Endpoint: /orders/receipt?file=\n\nPatch applied:\n  Original: request.file = request.FILES['file']\n  Fixed: request.file = request.FILES.get('file', '')\n  Explanation: Ensures file parameter is not manipulated by use",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"Patch does not address root cause, bypass variants exist\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"..\\\\..\\\\file.txt\",\n  \"functionality_preserved\": true\n}"
+}

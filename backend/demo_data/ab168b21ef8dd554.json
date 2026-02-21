@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: path_traversal\n  Payload: ../../etc/passwd\n  Endpoint: /orders/receipt?file=\n\nPatch applied:\n  Original: request.get('file', '')\n  Fixed: request.get('file', '').strip('/').split('/')[1:]\n  Explanation: Prevents path traversal by removing leading slashes an",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"Bypass variant still exists\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"../../etc/passwd\",\n  \"functionality_preserved\": true\n}"
+}

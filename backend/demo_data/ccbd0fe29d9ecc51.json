@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: xss\n  Payload: <script>alert(1)</script>\n  Endpoint: /\n\nPatch applied:\n  Original: <h1>{{ search_term }}</h1>\n  Fixed: <h1>{{ escape(search_term) }}</h1>\n  Explanation: Escaped user input prevents XSS attacks by treating HTML characters as literal text.\n\nLi",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"Escaped user input may not prevent XSS attacks if the escaping is not done correctly, but in this case it should work as expected.\",\n  \"bypass_found\": false,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

@@ -60,14 +60,18 @@ async def run(session: BattleSession) -> list[AttackChain]:
 
 Return ONLY valid JSON array of attack chains."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=2048)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=2048, agent_name="Venom")
 
     json_match = re.search(r"\[[\s\S]*\]", raw)
     if not json_match:
         session.log.append("[Venom] No chains identified")
         return []
 
-    chain_data = json.loads(json_match.group())
+    try:
+        chain_data = json.loads(json_match.group())
+    except json.JSONDecodeError:
+        session.log.append("[Venom] Could not parse chain JSON")
+        return []
     chains: list[AttackChain] = []
 
     severity_map = {
@@ -79,12 +83,12 @@ Return ONLY valid JSON array of attack chains."""
 
     for item in chain_data:
         chain = AttackChain(
-            title=item.get("title", "Unnamed chain"),
-            steps=item.get("steps", []),
-            vulnerability_ids=item.get("vulnerability_ids", []),
-            combined_severity=severity_map.get(item.get("combined_severity", "high"), Severity.HIGH),
-            combined_cvss=float(item.get("combined_cvss", 7.0)),
-            outcome=item.get("outcome", ""),
+            title=item.get("title") or "Unnamed chain",
+            steps=item.get("steps") or [],
+            vulnerability_ids=item.get("vulnerability_ids") or [],
+            combined_severity=severity_map.get(item.get("combined_severity") or "high", Severity.HIGH),
+            combined_cvss=float(item.get("combined_cvss") or 7.0),
+            outcome=item.get("outcome") or "",
             discovered_by="Venom",
         )
         chains.append(chain)

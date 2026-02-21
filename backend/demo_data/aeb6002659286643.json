@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: idor\n  Payload: \n  Endpoint: /orders/:id\n\nPatch applied:\n  Original: const order = await db.query('SELECT * FROM orders WHERE id = $1', [req.params.id]);\n  Fixed: const order = await db.query('SELECT * FROM orders WHERE id = :id', { id: req.params.id }); //",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"Parameterized query may not prevent IDOR if the `:id` placeholder is not properly sanitized or escaped in the request.\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"order_id=123\",\n  \"functionality_preserved\": true\n}"
+}

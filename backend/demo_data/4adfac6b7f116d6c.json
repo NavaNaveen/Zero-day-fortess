@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: idor\n  Payload: \n  Endpoint: /orders/:id\n\nPatch applied:\n  Original: const order = await db.order.findById(id);\n  Fixed: const order = await db.order.findById(id).populate('user');\n  Explanation: Added populate method to ensure user ID is accessible only th",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"populate method may not prevent idor if user ID is hardcoded or not properly validated\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

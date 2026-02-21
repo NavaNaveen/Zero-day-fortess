@@ -7,7 +7,7 @@ dev:
 	@make -j2 dev-backend dev-frontend
 
 dev-backend:
-	@cd backend && uvicorn main:app --reload --host 0.0.0.0 --port 8000
+	@cd backend && .venv/bin/uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 dev-frontend:
 	@cd frontend && npm run dev
@@ -19,12 +19,12 @@ dev-target:
 
 install:
 	@echo "📦 Installing dependencies..."
-	@cd backend && pip install -r requirements.txt
+	@cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 	@cd frontend && npm install
 	@cd vulnerable-app && npm install
 
 install-backend:
-	@cd backend && pip install -r requirements.txt
+	@cd backend && .venv/bin/pip install -r requirements.txt
 
 install-frontend:
 	@cd frontend && npm install
@@ -40,6 +40,14 @@ battle-demo:
 	@TARGET_BASE_URL=http://localhost:3001 \
 	 TARGET_REPO_PATH=../vulnerable-app \
 	 cd backend && python -m services.battle_runner --demo
+
+battle-ollama:
+	@echo "🦙 Starting Ollama battle..."
+	@curl -s -X POST "http://localhost:8000/battle/start?provider=ollama" | python3 -m json.tool
+
+battle-royale:
+	@echo "⚔️  Starting Battle Royale..."
+	@curl -s -X POST "http://localhost:8000/battle/royale?providers=ollama" | python3 -m json.tool
 
 # ─── Docker ───────────────────────────────────────────────────────────────────
 

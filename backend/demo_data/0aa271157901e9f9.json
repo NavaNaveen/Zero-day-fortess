@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: <script>alert('XSS')</script>\n  Endpoint: /\n\nPatch applied:\n  Original: <div>Search results for {{ searchTerm }}</div>\n  Fixed: <div>Search results for {{ searchTerm | safe }}</div>\n  Explanation: Sanitized user input to prevent XS",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"The patch does not prevent XSS attacks by sanitizing user input, it only prevents template injection.\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"<script>alert('XSS')</script>\",\n  \"functionality_preserved\": true\n}"
+}

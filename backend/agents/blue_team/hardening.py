@@ -64,14 +64,18 @@ Attack surface overview:
 Generate systemic hardening recommendations.
 Return ONLY valid JSON."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000, agent_name="Fortress")
 
     json_match = re.search(r"\{[\s\S]+\}", raw)
     if not json_match:
         session.log.append("[Fortress] Could not generate hardening plan")
         return {}
 
-    hardening = json.loads(json_match.group())
+    try:
+        hardening = json.loads(json_match.group())
+    except json.JSONDecodeError:
+        session.log.append("[Fortress] Could not parse hardening plan JSON")
+        return {}
     actions = hardening.get("hardening_actions", [])
     session.log.append(f"[Fortress] Generated {len(actions)} hardening actions")
 

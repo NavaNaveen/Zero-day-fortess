@@ -64,7 +64,7 @@ async def run(session: BattleSession) -> dict:
     session.log.append("[Spider] Starting reconnaissance...")
 
     from core.config import get_settings
-    repo_path = get_settings().target_repo_path
+    repo_path = session.target_repo_path or get_settings().target_repo_path
 
     code_files = _read_codebase(repo_path)
     session.log.append(f"[Spider] Scanned {len(code_files)} files")
@@ -90,14 +90,17 @@ Files analyzed: {len(code_files)}
 
 Return ONLY valid JSON."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=4096)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=4096, agent_name="Spider")
 
     # Extract JSON from response
     json_match = re.search(r"\{[\s\S]+\}", raw)
     if json_match:
-        attack_surface = json.loads(json_match.group())
+        try:
+            attack_surface = json.loads(json_match.group())
+        except json.JSONDecodeError:
+            attack_surface = {"endpoints": [], "input_vectors": [], "risk_summary": "Parse error"}
     else:
-        attack_surface = {"raw": raw, "endpoints": [], "risk_summary": "Parse error"}
+        attack_surface = {"endpoints": [], "input_vectors": [], "risk_summary": "No JSON in response"}
 
     session.attack_surface = attack_surface
     session.log.append(

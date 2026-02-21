@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: -1\n  Endpoint: /products/search?q=\n\nPatch applied:\n  Original: const products = await fetch('/products/search', { params: { q: query } });\n  Fixed: const products = await fetch('/products/search', { params: { q: query.trim() } }); ",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"The patch does not correctly handle the original payload. The live probe result indicates that a negative quantity (-1) is still being accepted and displayed, suggesting that the fix may not address the root cause of the vulnerability.\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"-1\",\n  \"functionality_preserved\": false\n}"
+}

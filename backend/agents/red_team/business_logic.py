@@ -54,14 +54,18 @@ async def run(session: BattleSession) -> list[Vulnerability]:
 Focus on workflows, transactions, state transitions, and access control logic.
 Return ONLY valid JSON array."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000, agent_name="Phantom")
 
     json_match = re.search(r"\[[\s\S]*\]", raw)
     if not json_match:
         session.log.append("[Phantom] No logic flaws found (parse error)")
         return []
 
-    flaw_data = json.loads(json_match.group())
+    try:
+        flaw_data = json.loads(json_match.group())
+    except json.JSONDecodeError:
+        session.log.append("[Phantom] Could not parse logic flaws JSON")
+        return []
     vulnerabilities: list[Vulnerability] = []
 
     severity_map = {
@@ -75,14 +79,14 @@ Return ONLY valid JSON array."""
     for item in flaw_data:
         vuln = Vulnerability(
             type=VulnType.BUSINESS_LOGIC,
-            severity=severity_map.get(item.get("severity", "medium"), Severity.MEDIUM),
-            title=item.get("title", "Business Logic Flaw"),
-            description=item.get("description", item.get("impact", "")),
-            endpoint=item.get("endpoint", ""),
-            payload=item.get("payload", ""),
-            impact=item.get("impact", ""),
-            cvss_score=float(item.get("cvss_score", 5.0)),
-            file_path=item.get("file_path", ""),
+            severity=severity_map.get(item.get("severity") or "medium", Severity.MEDIUM),
+            title=item.get("title") or "Business Logic Flaw",
+            description=item.get("description") or item.get("impact") or "",
+            endpoint=item.get("endpoint") or "",
+            payload=item.get("payload") or "",
+            impact=item.get("impact") or "",
+            cvss_score=float(item.get("cvss_score") or 5.0),
+            file_path=item.get("file_path") or "",
             line_number=item.get("line_number"),
             discovered_by="Phantom",
         )

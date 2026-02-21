@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: \n  Endpoint: /orders/receipt?file=\n\nPatch applied:\n  Original: if (request.file && request.file.name.includes('coupon')) { order.coupon = request.file.name; }\n  Fixed: if (request.file && request.file.name.includes('coupon') && Dat",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"expiry date check may not cover all cases, e.g., expired coupon stored in database\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

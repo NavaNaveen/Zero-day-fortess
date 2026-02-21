@@ -75,9 +75,56 @@ export interface BattleSession {
   chains: AttackChain[];
   patches: Patch[];
   attack_surface: Record<string, unknown>;
+  hardening_actions: HardeningAction[];
+  security_score_improvement: number;
   compliance_score: number;
   compliance_delta: number;
+  compliance_report: Record<string, unknown>;
+  agent_timings: Record<string, number>;
   log: string[];
+  // Multi-LLM support
+  provider: string;
+  provider_model: string;
+  battle_group_id: string;
+  target_repo_path: string;
+  target_base_url: string;
+  github_url: string;
+}
+
+export type LLMProvider = "anthropic" | "ollama" | "openai" | "gemini";
+
+export interface ProviderInfo {
+  available: boolean;
+  model: string;
+}
+
+export interface BattleGroup {
+  id: string;
+  sessions: Record<string, string>; // provider -> session_id
+  started_at: string;
+  completed_providers: string[];
+  target_repo: string;
+  github_url: string;
+}
+
+export interface ExamRound {
+  round: number;
+  vulnerability: { title: string; severity: string; type: string };
+  defender: string;
+  defender_model: string;
+  challenger: string;
+  challenger_model: string;
+  challenge: Record<string, unknown>;
+  defense: Record<string, unknown>;
+}
+
+export interface HardeningAction {
+  category: string;
+  priority: "critical" | "high" | "medium" | "low";
+  title: string;
+  description: string;
+  code_snippet: string;
+  file_to_modify: string;
 }
 
 export interface WSEvent {

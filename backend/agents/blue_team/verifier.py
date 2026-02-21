@@ -2,6 +2,9 @@
 Proof — Verification Agent
 Re-runs exploits to verify patches actually work.
 """
+import json
+import re
+
 import httpx
 
 from core.config import get_settings
@@ -54,7 +57,8 @@ async def run(session: BattleSession, vuln: Vulnerability, patch: Patch) -> bool
     # Attempt live probe
     probe_result = ""
     if vuln.endpoint and vuln.payload:
-        status, body = await _probe(settings.target_base_url, vuln.endpoint, vuln.payload)
+        base_url = session.target_base_url or settings.target_base_url
+        status, body = await _probe(base_url, vuln.endpoint, vuln.payload)
         probe_result = f"HTTP {status}: {body}"
 
     prompt = f"""Verify this patch:
@@ -73,21 +77,22 @@ Live probe result (after patch): {probe_result or "Not available (offline)"}
 
 Is the vulnerability fixed? Return ONLY valid JSON."""
 
-    import json
-    import re
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=512)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=512, agent_name="Proof")
     json_match = re.search(r"\{[\s\S]+\}", raw)
 
     verified = False
     if json_match:
-        result = json.loads(json_match.group())
-        verified = result.get("verified", False)
-        confidence = result.get("confidence", 0.0)
-        reason = result.get("reason", "")
-        session.log.append(
-            f"[Proof] {'✅ VERIFIED' if verified else '❌ FAILED'} "
-            f"({confidence:.0%} confidence): {reason}"
-        )
+        try:
+            result = json.loads(json_match.group())
+            verified = result.get("verified", False)
+            confidence = result.get("confidence", 0.0)
+            reason = result.get("reason", "")
+            session.log.append(
+                f"[Proof] {'✅ VERIFIED' if verified else '❌ FAILED'} "
+                f"({confidence:.0%} confidence): {reason}"
+            )
+        except json.JSONDecodeError:
+            session.log.append("[Proof] Could not parse verification result")
     else:
         session.log.append("[Proof] Could not parse verification result")
 
