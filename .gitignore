@@ -1,0 +1,36 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+dist/
+*.egg-info/
+reports/
+
+# Node
+node_modules/
+.next/
+out/
+build/
+
+# OS
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Docker
+docker/volumes/
