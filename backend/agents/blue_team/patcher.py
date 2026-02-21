@@ -47,10 +47,11 @@ async def run(session: BattleSession, vuln: Vulnerability) -> Patch | None:
     session.log.append(f"[Shield] Patching: {vuln.title}")
 
     settings = get_settings()
+    repo_path = session.target_repo_path or settings.target_repo_path
     file_content = ""
 
     if vuln.file_path:
-        full_path = os.path.join(settings.target_repo_path, vuln.file_path)
+        full_path = os.path.join(repo_path, vuln.file_path)
         try:
             file_content = Path(full_path).read_text(errors="ignore")[:5000]
         except OSError:
@@ -71,7 +72,7 @@ File content:
 
 Generate the minimal secure patch. Return ONLY valid JSON."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=2048)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=2048, agent_name="Shield")
 
     import json
     json_match = re.search(r"\{[\s\S]+\}", raw)
@@ -93,7 +94,7 @@ Generate the minimal secure patch. Return ONLY valid JSON."""
 
     # Apply patch to file if content exists
     if patch.original_code and patch.patched_code and vuln.file_path:
-        full_path = os.path.join(settings.target_repo_path, vuln.file_path)
+        full_path = os.path.join(repo_path, vuln.file_path)
         try:
             original = Path(full_path).read_text(errors="ignore")
             if patch.original_code in original:

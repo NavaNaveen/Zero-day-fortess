@@ -35,3 +35,64 @@ body {
   from { top: 0; }
   to { top: 100vh; }
 }
+
+/* Phase overlay animations */
+@keyframes phaseIn {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes phaseScale {
+  0% { transform: scale(0.8); opacity: 0; }
+  20% { transform: scale(1.05); opacity: 1; }
+  30% { transform: scale(1); }
+  80% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+@keyframes phaseScan {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
+@keyframes glitch {
+  0%, 100% { text-shadow: 2px 0 #ff0040, -2px 0 #00d4ff; }
+  25% { text-shadow: -2px -1px #ff0040, 2px 1px #00d4ff; }
+  50% { text-shadow: 1px 2px #ff0040, -1px -2px #00d4ff; }
+  75% { text-shadow: -1px 1px #ff0040, 1px -1px #00d4ff; }
+}
+
+.animate-phaseIn { animation: phaseIn 1.8s ease-in-out forwards; }
+.animate-phaseScale { animation: phaseScale 1.8s ease-out forwards; }
+.animate-phaseScan { animation: phaseScan 0.8s linear infinite; }
+.animate-glitch { animation: glitch 0.3s steps(4) infinite; }
+
+/* Debate Arena animations */
+@keyframes debateSlideLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes debateSlideRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes verdictPop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes royalePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3); }
+  50% { box-shadow: 0 0 20px 4px rgba(245, 158, 11, 0.15); }
+}
+
+.animate-debateLeft { animation: debateSlideLeft 0.4s ease-out forwards; }
+.animate-debateRight { animation: debateSlideRight 0.4s ease-out forwards; }
+.animate-verdictPop { animation: verdictPop 0.3s ease-out forwards; }
+.animate-royalePulse { animation: royalePulse 2s ease-in-out infinite; }
+
+/* Typewriter blink cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink { animation: blink 0.8s step-end infinite; }

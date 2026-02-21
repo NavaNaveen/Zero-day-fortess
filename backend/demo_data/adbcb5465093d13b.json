@@ -1,0 +1,6 @@
+{
+  "agent": "Phantom",
+  "system_preview": "You are Phantom, an elite red-team business logic analyst.\nYou find vulnerabilities that scanners miss \u2014 logic flaws in how the application works.\n\nLook for:\n- Price manipulation (negative quantities,",
+  "prompt_preview": "Analyze this attack surface for business logic vulnerabilities:\n\n{\n  \"raw\": \"The code you provided is a Flask API that handles Slack webhook events and uses the Gemini AI service to classify and extract structured information from incoming messages.\\n\\nHere are some potential improvements:\\n\\n1. **E",
+  "response": "[{\n  \"vuln_type\": \"business_logic\",\n  \"severity\": \"medium\",\n  \"title\": \"Missing Error Handling for Gemini AI Service Errors\",\n  \"description\": \"The API does not handle errors returned by the Gemini AI service, which can lead to unexpected behavior and crashes.\",\n  \"endpoint\": \"/webhook/events\",\n  \"payload\": \"\",\n  \"steps_to_reproduce\": [\"Send a malformed message to the webhook endpoint\"],\n  \"impact\": \"API crash with 500 Internal Server Error\",\n  \"cvss_score\": 4.3,\n  \"file_path\": \"app.py\",\n  \"line_number\": null\n}]"
+}
