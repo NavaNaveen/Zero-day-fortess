@@ -1,0 +1,6 @@
+{
+  "agent": "Phantom",
+  "system_preview": "You are Phantom, an elite red-team business logic analyst.\nYou find vulnerabilities that scanners miss \u2014 logic flaws in how the application works.\n\nLook for:\n- Price manipulation (negative quantities,",
+  "prompt_preview": "Analyze this attack surface for business logic vulnerabilities:\n\n{\n  \"endpoints\": [\n    {\n      \"path\": \"/api/search\",\n      \"method\": \"GET\",\n      \"params\": [\n        \"query\"\n      ],\n      \"auth_required\": false,\n      \"risk_notes\": \"\"\n    },\n    {\n      \"path\": \"/api/indiankanoon/details/<docid>\"",
+  "response": "[{\n  \"vuln_type\": \"workflow_bypass\",\n  \"severity\": \"high\",\n  \"title\": \"Bypass API key authentication for Indian Kanoon details\",\n  \"description\": \"The /api/indiankanoon/details/<docid> endpoint uses an API key for authentication, but the implementation is vulnerable to bypassing this check.\",\n  \"endpoint\": \"/api/indiankanoon/details/<docid>\",\n  \"payload\": \"\",\n  \"steps_to_reproduce\": [\"Step 1: Send a GET request to /api/indiankanoon/details/<docid> without providing an API key\"],\n  \"impact\": \"Unauthorized access to sensitive information\",\n  \"cvss_score\": 8.5,\n  \"file_path\": \"indian_kanoon.py\",\n  \"line_number\": null\n}]"
+}

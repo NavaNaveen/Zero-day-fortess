@@ -1,0 +1,6 @@
+{
+  "agent": "Phantom",
+  "system_preview": "You are Phantom, an elite red-team business logic analyst.\nYou find vulnerabilities that scanners miss \u2014 logic flaws in how the application works.\n\nLook for:\n- Price manipulation (negative quantities,",
+  "prompt_preview": "Analyze this attack surface for business logic vulnerabilities:\n\n{\n  \"endpoints\": [\n    {\n      \"path\": \"/api/search\",\n      \"method\": \"GET\",\n      \"params\": [\n        \"query\"\n      ],\n      \"auth_required\": false,\n      \"risk_notes\": \"\"\n    },\n    {\n      \"path\": \"/api/indiankanoon/details/<docid>\"",
+  "response": "[{\n  \"vuln_type\": \"workflow_bypass\",\n  \"severity\": \"high\",\n  \"title\": \"Bypassing authentication for news endpoint\",\n  \"description\": \"The /api/news/general endpoint does not require authentication, allowing unauthorized access to news data.\",\n  \"endpoint\": \"/api/news/general\",\n  \"payload\": \"\",\n  \"steps_to_reproduce\": [\"Send a GET request to /api/news/general without authentication\"],\n  \"impact\": \"Unauthorized access to news data\",\n  \"cvss_score\": 7.5,\n  \"file_path\": \"\",\n  \"line_number\": null\n}]"
+}

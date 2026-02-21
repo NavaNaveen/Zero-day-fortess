@@ -64,7 +64,7 @@ Attack surface overview:
 Generate systemic hardening recommendations.
 Return ONLY valid JSON."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000, agent_name="Fortress")
 
     json_match = re.search(r"\{[\s\S]+\}", raw)
     if not json_match:

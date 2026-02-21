@@ -54,7 +54,7 @@ async def run(session: BattleSession) -> list[Vulnerability]:
 Focus on workflows, transactions, state transitions, and access control logic.
 Return ONLY valid JSON array."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=3000, agent_name="Phantom")
 
     json_match = re.search(r"\[[\s\S]*\]", raw)
     if not json_match:

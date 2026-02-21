@@ -60,7 +60,7 @@ async def run(session: BattleSession) -> list[AttackChain]:
 
 Return ONLY valid JSON array of attack chains."""
 
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=2048)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=2048, agent_name="Venom")
 
     json_match = re.search(r"\[[\s\S]*\]", raw)
     if not json_match:

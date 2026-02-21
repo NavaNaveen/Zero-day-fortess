@@ -1,9 +1,10 @@
 """
 In-memory battle session store (suitable for hackathon demo).
 """
-from models.vulnerability import BattleSession
+from models.vulnerability import BattleGroup, BattleSession
 
 _sessions: dict[str, BattleSession] = {}
+_groups: dict[str, BattleGroup] = {}
 
 
 def save(session: BattleSession) -> None:
@@ -22,3 +23,11 @@ def latest() -> BattleSession | None:
     if not _sessions:
         return None
     return sorted(_sessions.values(), key=lambda s: s.started_at, reverse=True)[0]
+
+
+def save_group(group: BattleGroup) -> None:
+    _groups[group.id] = group
+
+
+def get_group(group_id: str) -> BattleGroup | None:
+    return _groups.get(group_id)

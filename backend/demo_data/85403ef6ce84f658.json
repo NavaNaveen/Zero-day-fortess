@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: \n  Endpoint: /api/indiankanoon/details/<docid>\n\nPatch applied:\n  Original: @app.route('/api/indiankanoon/details/<docid>', methods=['GET'])\ndef get_document_details(docid):\n    try:\n        # Fetch document details\n        doc_url ",
+  "response": "{\n  \"verified\": true,\n  \"confidence\": 1.0,\n  \"reason\": \"The patch correctly addresses the root cause of the business logic vulnerability by requiring API key authentication for all docids, except 'public'.\",\n  \"bypass_found\": false,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

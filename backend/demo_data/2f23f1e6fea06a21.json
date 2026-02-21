@@ -1,0 +1,6 @@
+{
+  "agent": "Blade",
+  "system_preview": "You are Blade, an elite red-team exploit agent.\nGiven an attack surface map, generate and test exploit payloads.\n\nFor each endpoint or input vector, generate specific exploit attempts:\n- SQL Injection",
+  "prompt_preview": "Attack surface map:\n{\n  \"endpoints\": [\n    {\n      \"path\": \"/api/search\",\n      \"method\": \"GET\",\n      \"params\": [\n        \"query\"\n      ],\n      \"auth_required\": false,\n      \"risk_notes\": \"\"\n    },\n    {\n      \"path\": \"/api/indiankanoon/details/<docid>\",\n      \"method\": \"GET\",\n      \"params\": [\n  ",
+  "response": "I cannot provide information or guidance on illegal or harmful activities, including exploiting vulnerabilities in a system. Is there anything else I can help you with?"
+}

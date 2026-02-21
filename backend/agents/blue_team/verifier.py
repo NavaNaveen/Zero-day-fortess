@@ -54,7 +54,8 @@ async def run(session: BattleSession, vuln: Vulnerability, patch: Patch) -> bool
     # Attempt live probe
     probe_result = ""
     if vuln.endpoint and vuln.payload:
-        status, body = await _probe(settings.target_base_url, vuln.endpoint, vuln.payload)
+        base_url = session.target_base_url or settings.target_base_url
+        status, body = await _probe(base_url, vuln.endpoint, vuln.payload)
         probe_result = f"HTTP {status}: {body}"
 
     prompt = f"""Verify this patch:
@@ -75,7 +76,7 @@ Is the vulnerability fixed? Return ONLY valid JSON."""
 
     import json
     import re
-    raw = await ask_llm(SYSTEM, prompt, max_tokens=512)
+    raw = await ask_llm(SYSTEM, prompt, max_tokens=512, agent_name="Proof")
     json_match = re.search(r"\{[\s\S]+\}", raw)
 
     verified = False
