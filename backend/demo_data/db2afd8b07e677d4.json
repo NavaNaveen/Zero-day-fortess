@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: username=' OR 1=1 --'\n  Endpoint: /auth/login\n\nPatch applied:\n  Original: const users = db.get('users');\nconst user = users.find(user => user.username === req.body.username);\nif (!user) return res.status(401).send('Invalid username",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.6,\n  \"reason\": \"The patch does not correctly handle the original payload. The `findOne` method is case-sensitive, so if the username contains spaces or special characters, it will return an empty result set, causing a 404 error.\",\n  \"bypass_found\": false,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

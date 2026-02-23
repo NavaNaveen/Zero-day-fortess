@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: unknown\n  Payload: \n  Endpoint: /auth/login\n\nPatch applied:\n  Original: const username = req.body.username; const password = req.body.password;\n  Fixed: const username = req.body.username; const password = req.body.password; // Passwords should never be sto",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"The patch does not address the root cause, as it only changes the storage of passwords without addressing how they are handled or validated.\",\n  \"bypass_found\": false,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

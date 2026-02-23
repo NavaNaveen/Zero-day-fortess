@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: business_logic\n  Payload: \n  Endpoint: /auth/users\n\nPatch applied:\n  Original: return users; // returns all users in case of error\n  Fixed: try { return users; } catch (e) { if (e instanceof Error && e.message.includes('User not found')) { throw new Error('",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"The fix does not address the root cause of the business logic vulnerability, as it only checks for a specific error message and does not prevent user enumeration in general.\",\n  \"bypass_found\": false,\n  \"bypass_payload\": \"\",\n  \"functionality_preserved\": true\n}"
+}

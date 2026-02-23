@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: idor\n  Payload: \n  Endpoint: /orders/:id\n\nPatch applied:\n  Original: const order = orders.find(order => order.id === params.id);\n  Fixed: const order = orders.find(order => order.id === req.user.id || order.id === params.id);\n  Explanation: Added check for ",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.8,\n  \"reason\": \"Bypass variant found\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"/orders/123\",\n  \"functionality_preserved\": true\n}"
+}

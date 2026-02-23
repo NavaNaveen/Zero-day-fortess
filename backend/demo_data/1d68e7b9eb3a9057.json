@@ -1,0 +1,6 @@
+{
+  "agent": "Shield",
+  "system_preview": "You are Shield, an elite blue-team patch engineer.\nGiven a vulnerability and the affected source code, generate the MINIMAL secure fix.\n\nRules:\n1. Change ONLY what's necessary to fix the vulnerability",
+  "prompt_preview": "Vulnerability to fix:\nType: business_logic\nSeverity: high\nTitle: Password in plaintext\nDescription: The login endpoint stores passwords in plaintext, allowing for easy access to user credentials.\nEndpoint: /auth/login\nPayload that works: \nFile: \nLine: None\n\nFile content:\n(file not found \u2014 generate c",
+  "response": "```\n{\n  \"file_path\": \"app/auth/login.js\",\n  \"original_code\": \"const storedPassword = request.body.password; // store password in plaintext\",\n  \"patched_code\": \"const storedPasswordHash = crypto.createHash('sha256').update(request.body.password).digest('hex');\",\n  \"explanation\": \"Hashing passwords to prevent plaintext access, making it harder for attackers to obtain user credentials.\",\n  \"diff\": \"@@ -5,7 +5,9 @@\\nconst storedPassword = request.body.password;\\n-\\n+ const storedPasswordHash = crypto.createHash('sha256').update(request.body.password).digest('hex');\\n\"\n}\n```"
+}

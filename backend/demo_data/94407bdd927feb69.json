@@ -1,0 +1,6 @@
+{
+  "agent": "Proof",
+  "system_preview": "You are Proof, a blue-team verification specialist.\nGiven a vulnerability, its exploit payload, and an applied patch,\ndetermine if the patch is effective.\n\nAnalyze:\n1. Does the patched code address th",
+  "prompt_preview": "Verify this patch:\n\nVulnerability:\n  Type: idor\n  Payload: \n  Endpoint: /orders/:id\n\nPatch applied:\n  Original: const order = await db.order.findOne({ where: { id } });\n  Fixed: const owner = await auth.checkOwnership(req, order); if (!owner) throw new Error('Unauthorized'); const order = await db.o",
+  "response": "{\n  \"verified\": false,\n  \"confidence\": 0.6,\n  \"reason\": \"Ownership check bypass variant found\",\n  \"bypass_found\": true,\n  \"bypass_payload\": \"/orders/9999\",\n  \"functionality_preserved\": false\n}"
+}
